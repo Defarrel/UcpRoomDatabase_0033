@@ -8,5 +8,5 @@ interface RepositoryJadwal {
     suspend fun updateJadwal(jadwal: Jadwal)
     suspend fun deleteJadwal(jadwal: Jadwal)
     fun getAllJadwal(): Flow<List<Jadwal>>
-    fun getJadwalById(id: String): Flow<Jadwal>
+    fun getJadwalById(id: Int): Flow<Jadwal>
 }

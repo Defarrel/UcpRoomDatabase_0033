@@ -21,7 +21,7 @@ class LocalRepositoryJadwal(private val jadwalDao: JadwalDao) : RepositoryJadwal
         return jadwalDao.getAllJadwal()
     }
 
-    override fun getJadwalById(id: String): Flow<Jadwal> {
+    override fun getJadwalById(id: Int): Flow<Jadwal> {
         return jadwalDao.getJadwalById(id)
     }
 }
