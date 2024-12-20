@@ -1,8 +1,64 @@
 package com.example.ucp2.ui.viewmodel
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.ucp2.data.entity.Dokter
+import com.example.ucp2.repository.RepositoryDokter
+import kotlinx.coroutines.launch
 
+class AddDokterViewModel(private val repositoryDokter: RepositoryDokter): ViewModel() {
+    var uiState by mutableStateOf(DktrUIState())
 
+    fun updateState(DokterEvent: DokterEvent) {
+        uiState = uiState.copy(
+            dokterEvent = DokterEvent,
+        )
+    }
+    private fun validateFields(): Boolean {
+        val event = uiState.dokterEvent
+        val errorState = FormErrorState(
+            nama = if (event.nama.isNotEmpty()) null else "Nama tidak boleh kosong",
+            spesialis = if (event.spesialis.isNotEmpty()) null else "Spesialis tidak boleh kosong",
+            klinik = if (event.klinik.isNotEmpty()) null else "Klinik tidak boleh kosong",
+            noHp = if (event.noHp.isNotEmpty()) null else "Nomor Hp tidak boleh kosong",
+            jamKerja = if (event.jamKerja.isNotEmpty()) null else "Jam kerja tidak boleh kosong",
+        )
+        uiState = uiState.copy(isEntryValid = errorState)
+        return errorState.isValid()
+    }
+
+    //Menyimpan data ke repository
+    fun saveData(){
+        val currentEvent = uiState.dokterEvent
+
+        if (validateFields()){
+            viewModelScope.launch {
+                try{
+                    repositoryDokter.insertDokter(currentEvent.toDokterEntity())
+                    uiState = uiState.copy(
+                        snackBarMessage = "Data berhasil disimpan",
+                        dokterEvent = DokterEvent(), //Reset input form
+                        isEntryValid = FormErrorState() //Reset validasi form
+                    )
+                } catch (e: Exception){
+                    uiState = uiState.copy(
+                        snackBarMessage = "Data gagal disimpan"
+                    )
+                }
+            }
+        } else{
+            uiState = uiState.copy(
+                snackBarMessage = "Input tidak valid. Periksa kembali data anda"
+            )
+        }
+    }
+    fun reseSnackBarMessage(){
+        uiState = uiState.copy(snackBarMessage = null)
+    }
+}
 
 data class DktrUIState(
     val dokterEvent: DokterEvent = DokterEvent(),
