@@ -13,6 +13,11 @@ object PenyediaViewModel{
                 HealthApp().containerApp.repositoryDokter
             )
         }
+        initializer {
+            AddDokterViewModel(
+                HealthApp().containerApp.repositoryDokter
+            )
+        }
     }
 }
 fun CreationExtras.HealthApp(): HealthApp =
