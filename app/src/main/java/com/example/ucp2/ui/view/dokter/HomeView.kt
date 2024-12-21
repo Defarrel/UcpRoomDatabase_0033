@@ -1,23 +1,30 @@
 package com.example.ucp2.ui.view.dokter
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +39,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -54,7 +63,7 @@ fun HomeView(
     onDetailClick: (String) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
-    Scaffold (
+    Scaffold(
         topBar = {
             TopAppBarr(
                 judul = "Daftar Dokter",
@@ -64,24 +73,39 @@ fun HomeView(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = onAddDokter,
-                shape = MaterialTheme.shapes.medium,
-                modifier = modifier.padding(16.dp),
-                contentColor = colorResource(id = R.color.white)
-            ){
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Tambah Dokter"
-                )
+            Row(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                FloatingActionButton(
+                    onClick = onAddJadwal,
+                    shape = MaterialTheme.shapes.medium,
+                    containerColor = colorResource(id = R.color.floatingbutton),
+                    contentColor = colorResource(id = R.color.white)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = "Lihat Jadwal"
+                    )
+                }
+                FloatingActionButton(
+                    onClick = onAddDokter,
+                    shape = MaterialTheme.shapes.medium,
+                    containerColor = colorResource(id = R.color.floatingbutton),
+                    contentColor = colorResource(id = R.color.white)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Tambah Dokter"
+                    )
+                }
             }
         }
 
 
-
-
-    ){
-            innerPadding ->
+    ){ innerPadding ->
         val homeUiState by viewModel.homeUiState.collectAsState()
 
         BodyHomeMhsView(
@@ -174,86 +198,105 @@ fun CardMhs(
     dktr: Dokter,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
-){
+) {
     Card(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(16.dp),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
     ) {
         Column(
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Icon(
-                    imageVector = Icons.Filled.Person,
-                    contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
                 Text(
                     text = dktr.nama,
+                    fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    color = colorResource(id = R.color.black)
                 )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ){
                 Icon(
-                    imageVector = Icons.Filled.ThumbUp,
-                    contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text(
-                    text = dktr.spesialis,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
+                    imageVector = Icons.Filled.Person,
+                    contentDescription = "Dokter",
+                    tint = colorResource(id = R.color.icon)
                 )
             }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Icon(
-                    imageVector = Icons.Filled.AddCircle,
-                    contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text(
-                    text = dktr.klinik,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Icon(
-                    imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text(
-                    text = dktr.noHp,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-            }
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
-            ){
-                Icon(
-                    imageVector = Icons.Filled.DateRange,
-                    contentDescription = "")
-                Spacer(modifier = Modifier.padding(4.dp))
-                Text(
-                    text = dktr.jamKerja,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp
-                )
-            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Divider(color = colorResource(id = R.color.dll2), thickness = 1.dp)
+
+            InfoRow(
+                icon = Icons.Filled.ThumbUp,
+                label = "Spesialis",
+                value = dktr.spesialis
+            )
+
+            InfoRow(
+                icon = Icons.Filled.AddCircle,
+                label = "Klinik",
+                value = dktr.klinik
+
+            )
+
+            InfoRow(
+                icon = Icons.Filled.Call,
+                label = "Kontak",
+                value = dktr.noHp
+            )
+
+            InfoRow(
+                icon = Icons.Filled.DateRange,
+                label = "Jam Kerja",
+                value = dktr.jamKerja
+            )
         }
     }
 }
+
+@Composable
+fun InfoRow(
+    icon: ImageVector,
+    label: String,
+    value: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = colorResource(id = R.color.icon),
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.width(12.dp))
+        Column {
+            Text(
+                text = label,
+                fontSize = 12.sp,
+                color = colorResource(id = R.color.black)
+            )
+            Text(
+                text = value,
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = colorResource(id = R.color.black)
+            )
+        }
+    }
+}
+
