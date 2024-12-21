@@ -113,7 +113,7 @@ fun HomeView(
             onClick = {
                 onDetailClick(it)
             },
-            modifier = modifier.padding(innerPadding)
+            modifier = Modifier.padding(innerPadding)
         )
     }
 }
