@@ -72,9 +72,11 @@ fun AddDokterView(
         topBar = {
             TopAppBarr(
                 judul = "Tambah Dokter",
+                judul2 = "",
                 showBackButton = true,
+                showProfile = false,
                 onBack = onBack,
-                modifier = modifier
+                modifier = Modifier
             )
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }

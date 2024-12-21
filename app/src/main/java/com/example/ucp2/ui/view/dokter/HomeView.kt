@@ -66,8 +66,10 @@ fun HomeView(
     Scaffold(
         topBar = {
             TopAppBarr(
-                judul = "Daftar Dokter",
+                judul = "Selamat Datang di Aplikasi Health Care",
+                judul2 = "Daftar Dokter Yang Tersedia",
                 showBackButton = false,
+                showProfile = true,
                 onBack = {},
                 modifier = modifier
             )
