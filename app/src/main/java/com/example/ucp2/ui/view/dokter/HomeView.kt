@@ -199,6 +199,7 @@ fun CardMhs(
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {}
 ) {
+
     Card(
         onClick = onClick,
         modifier = modifier
@@ -238,27 +239,27 @@ fun CardMhs(
 
             InfoRow(
                 icon = Icons.Filled.ThumbUp,
-                label = "Spesialis",
-                value = dktr.spesialis
+                judul = "Spesialis",
+                isinya = dktr.spesialis,
             )
 
             InfoRow(
                 icon = Icons.Filled.AddCircle,
-                label = "Klinik",
-                value = dktr.klinik
+                judul = "Klinik",
+                isinya = dktr.klinik
 
             )
 
             InfoRow(
                 icon = Icons.Filled.Call,
-                label = "Kontak",
-                value = dktr.noHp
+                judul = "Kontak",
+                isinya = dktr.noHp
             )
 
             InfoRow(
                 icon = Icons.Filled.DateRange,
-                label = "Jam Kerja",
-                value = dktr.jamKerja
+                judul = "Jam Kerja",
+                isinya = dktr.jamKerja
             )
         }
     }
@@ -267,10 +268,18 @@ fun CardMhs(
 @Composable
 fun InfoRow(
     icon: ImageVector,
-    label: String,
-    value: String,
+    judul: String,
+    isinya: String,
     modifier: Modifier = Modifier
 ) {
+    val spesialisColor = mapOf(
+        "Dokter Umum" to Color.Blue,
+        "Dokter Gigi" to Color.Green,
+        "Dokter Bedah" to Color.Red,
+        "Dokter Saraf" to Color.Cyan,
+        "Dokter Kulit" to Color.Magenta,
+        "Dokter THT" to Color.Yellow
+    )
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -286,15 +295,15 @@ fun InfoRow(
         Spacer(modifier = Modifier.width(12.dp))
         Column {
             Text(
-                text = label,
+                text = judul,
                 fontSize = 12.sp,
                 color = colorResource(id = R.color.black)
             )
             Text(
-                text = value,
+                text = isinya,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
-                color = colorResource(id = R.color.black)
+                color = spesialisColor.getOrDefault(isinya, Color.Black)
             )
         }
     }

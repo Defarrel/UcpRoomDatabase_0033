@@ -112,7 +112,7 @@ fun FormDokter(
         mutableStateOf("")
     }
 
-    val spesialisOptions = listOf("Dokter Umum", "Dokter Gigi", "Dokter Bedah", "Dokter Saraf", "Dokter Kulit", "")
+    val spesialisOptions = listOf("Dokter Umum", "Dokter Gigi", "Dokter Bedah", "Dokter Saraf", "Dokter Kulit", "Dokter THT")
     Column(
         modifier = Modifier.fillMaxWidth()
     ){
